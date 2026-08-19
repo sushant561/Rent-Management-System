@@ -6,29 +6,58 @@
   <meta name="description" content="Tenant Dashboard — Rent Management System">
   <title>Tenant Dashboard — Rent Management System</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
 </head>
 <body>
-
-  <header>
-    <nav class="navbar" aria-label="Dashboard navigation">
-      <div class="container">
-        <a href="../../index.html" class="navbar-brand">
-          <span class="navbar-brand-icon">RMS</span>
-          Rent Management System
-        </a>
-      </div>
-    </nav>
-  </header>
-
-  <main class="dashboard-placeholder">
-    <h1>Tenant Dashboard — Coming Soon</h1>
-    <p>
-      The tenant dashboard is under development. In the next phase, you will be able to
-      view rent details, track payments, and submit complaints from here.
-    </p>
-    <a href="../../index.html" class="btn btn-outline">Back to Home</a>
-  </main>
-
-  <script src="../../js/main.js"></script>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <section class="dashboard-hero" id="tenant-hero"></section>
+        <div class="stats-grid" id="tenant-stats"></div>
+        <div class="status-layout">
+          <div class="card">
+            <div class="card-header"><h3>Recent Payments</h3></div>
+            <div class="card-body no-padding">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Receipt ID</th><th>Month</th><th>Amount</th><th>Date</th><th>Receipt</th></tr>
+                  </thead>
+                  <tbody id="tenant-payments"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="info-panel">
+            <div class="info-panel-header"><h3>Current Complaint Status</h3></div>
+            <div class="info-panel-body">
+              <div class="stack-list" id="tenant-complaint-summary"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="info-panel">
+            <div class="info-panel-header"><h3>Rental Information</h3></div>
+            <div class="info-panel-body">
+              <div class="info-list" id="tenant-rental-info"></div>
+            </div>
+          </div>
+          <div class="info-panel">
+            <div class="info-panel-header"><h3>Recent Alerts</h3></div>
+            <div class="info-panel-body">
+              <div class="stack-list" id="tenant-alert-summary"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/tenant-dashboard.js"></script>
 </body>
 </html>

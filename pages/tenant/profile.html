@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div>
+            <h2>Profile</h2>
+            <p>View your rental details and update your contact information.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h3>Tenant Information</h3></div>
+            <div class="card-body">
+              <form id="tenant-profile-form">
+                <div class="form-group">
+                  <label for="tenant-name">Full Name</label>
+                  <input type="text" id="tenant-name" required>
+                </div>
+                <div class="form-group">
+                  <label for="tenant-email">Email</label>
+                  <input type="email" id="tenant-email" required>
+                </div>
+                <div class="form-group">
+                  <label for="tenant-phone">Phone</label>
+                  <input type="tel" id="tenant-phone" required>
+                </div>
+                <div class="form-group">
+                  <label><input type="checkbox" id="tenant-notifications"> Enable notifications</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+              </form>
+            </div>
+          </div>
+          <div class="info-panel">
+            <div class="info-panel-header"><h3>Rental Details</h3></div>
+            <div class="info-panel-body">
+              <div class="info-list" id="tenant-profile-details"></div>
+              <div class="card-actions" style="margin-top:1rem">
+                <button type="button" class="btn btn-outline" id="tenant-logout-btn">Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/tenant-profile.js"></script>
+</body>
+</html>

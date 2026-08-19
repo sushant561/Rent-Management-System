@@ -146,6 +146,36 @@
             return;
           }
 
+          var selectedProperty = RMSStore.getPropertyById(data.propertyId);
+          var otherActiveTenants = RMSStore.getTenants().filter(function (tenantItem) {
+            return tenantItem.status === "Active" &&
+              tenantItem.propertyId === data.propertyId &&
+              tenantItem.id !== id;
+          });
+          var roomTaken = otherActiveTenants.some(function (tenantItem) {
+            return String(tenantItem.roomNumber).toLowerCase() === data.roomNumber.toLowerCase();
+          });
+
+          if (!selectedProperty) {
+            RMSUtils.showToast("Selected property was not found.", "error");
+            return;
+          }
+
+          if (roomTaken) {
+            RMSUtils.showToast("That room is already assigned to another active tenant.", "error");
+            return;
+          }
+
+          if (!isEdit && otherActiveTenants.length >= selectedProperty.totalRooms) {
+            RMSUtils.showToast("No vacant rooms are available in the selected property.", "error");
+            return;
+          }
+
+          if (isEdit && t.propertyId !== data.propertyId && otherActiveTenants.length >= selectedProperty.totalRooms) {
+            RMSUtils.showToast("No vacant rooms are available in the selected property.", "error");
+            return;
+          }
+
           if (isEdit) {
             RMSStore.updateTenant(id, data);
             RMSUtils.showToast("Tenant updated.", "success");

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaints — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div>
+            <h2>Complaints</h2>
+            <p>Submit maintenance issues and track status updates from the owner.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h3>Submit Complaint</h3></div>
+            <div class="card-body">
+              <form id="tenant-complaint-form">
+                <div class="form-group">
+                  <label for="complaint-subject">Subject</label>
+                  <input type="text" id="complaint-subject" placeholder="Enter complaint subject" required>
+                </div>
+                <div class="form-group">
+                  <label for="complaint-description">Description</label>
+                  <textarea id="complaint-description" placeholder="Describe the issue clearly" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Complaint</button>
+              </form>
+            </div>
+          </div>
+          <div class="info-panel">
+            <div class="info-panel-header"><h3>Complaint Summary</h3></div>
+            <div class="info-panel-body">
+              <div class="info-list" id="complaint-summary"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Your Complaint History</h3></div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Subject</th><th>Description</th><th>Date</th><th>Status</th><th>Owner Response</th></tr>
+                </thead>
+                <tbody id="tenant-complaints-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/tenant-complaints.js"></script>
+</body>
+</html>

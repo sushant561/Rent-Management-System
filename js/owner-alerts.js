@@ -7,6 +7,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     RMSLayout.init("owner", "alerts");
     populateTenantSelect();
+    bindRecipientToggle();
     renderSentAlerts();
     document.getElementById("send-alert-form").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -19,6 +20,22 @@
     RMSStore.getTenants().filter(function (t) { return t.status === "Active"; }).forEach(function (t) {
       select.innerHTML += '<option value="' + t.id + '">' + RMSUtils.escapeHtml(t.name) + "</option>";
     });
+    toggleTenantSelect();
+  }
+
+  function bindRecipientToggle() {
+    document.querySelectorAll('input[name="recipient"]').forEach(function (radio) {
+      radio.addEventListener("change", toggleTenantSelect);
+    });
+  }
+
+  function toggleTenantSelect() {
+    var isSpecific = document.querySelector('input[name="recipient"]:checked').value === "specific";
+    var select = document.getElementById("alert-tenant");
+    select.disabled = !isSpecific;
+    if (!isSpecific) {
+      select.value = "";
+    }
   }
 
   function sendAlert() {
@@ -31,9 +48,16 @@
       return;
     }
 
+    if (recipient === "specific" && !tenantId) {
+      RMSUtils.showToast("Please choose a tenant for this alert.", "error");
+      return;
+    }
+
     RMSStore.sendAlert(message, recipient === "all" ? null : tenantId);
     RMSUtils.showToast("Alert sent successfully.", "success");
     document.getElementById("alert-message").value = "";
+    document.querySelector('input[name="recipient"][value="all"]').checked = true;
+    toggleTenantSelect();
     renderSentAlerts();
   }
 

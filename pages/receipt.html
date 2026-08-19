@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Receipt — Rent Management System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <main class="receipt-page">
+    <div class="receipt-actions no-print" style="justify-content:space-between;margin-bottom:1.5rem">
+      <a href="../index.html" class="btn btn-outline" id="receipt-back-link">Back</a>
+      <button type="button" class="btn btn-primary" id="print-receipt-btn">Print Receipt</button>
+    </div>
+    <div class="card">
+      <div class="card-body" id="receipt-container"></div>
+    </div>
+  </main>
+  <script src="../js/utils.js"></script>
+  <script src="../js/data-store.js"></script>
+  <script src="../js/session.js"></script>
+  <script src="../js/receipt.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Payment — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div>
+            <h2>Rent Payment</h2>
+            <p>Review your current due amount and make a simulated payment.</p>
+          </div>
+        </div>
+        <div class="status-layout">
+          <div class="card">
+            <div class="card-header"><h3>Current Rent Status</h3></div>
+            <div class="card-body" id="rent-status-card"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Simulated Payment</h3></div>
+            <div class="card-body">
+              <form id="rent-payment-form">
+                <div class="form-group">
+                  <label for="payment-method">Payment Method</label>
+                  <select id="payment-method">
+                    <option value="UPI">UPI</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value="Cash">Cash</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary" id="pay-now-btn">Pay Now</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Recent Payment Records</h3></div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Receipt ID</th><th>Month</th><th>Amount</th><th>Date</th><th>Method</th><th>Receipt</th></tr>
+                </thead>
+                <tbody id="recent-payment-records"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/tenant-rent-payment.js"></script>
+</body>
+</html>

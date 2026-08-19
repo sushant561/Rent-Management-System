@@ -9,8 +9,29 @@ var RMSStore = (function () {
 
   var STORAGE_KEY = "rms_data";
 
+  function toDateString(date) {
+    return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+  }
+
+  function shiftMonth(monthStr, delta) {
+    var parts = monthStr.split("-");
+    var date = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1 + delta, 1);
+    return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0");
+  }
+
+  function getRentStatusFromDueDate(dueDate) {
+    var today = new Date();
+    var due = new Date(dueDate + "T23:59:59");
+    return today > due ? "Overdue" : "Pending";
+  }
+
   function getDefaultData() {
     var currentMonth = RMSUtils.getCurrentMonth();
+    var previousMonth = shiftMonth(currentMonth, -1);
+    var currentDate = new Date();
+    var currentMonthPaidDateA = currentMonth + "-03";
+    var currentMonthPaidDateB = currentMonth + "-01";
+    var previousMonthPaidDate = previousMonth + "-05";
     return {
       properties: [
         {
@@ -89,15 +110,15 @@ var RMSStore = (function () {
         }
       ],
       rentRecords: [
-        { id: "rent_1", tenantId: "ten_1", propertyId: "prop_1", month: currentMonth, dueDate: currentMonth + "-05", amount: 12000, status: "Pending" },
-        { id: "rent_2", tenantId: "ten_2", propertyId: "prop_1", month: currentMonth, dueDate: currentMonth + "-05", amount: 11500, status: "Paid", paidDate: currentMonth + "-03", method: "UPI" },
-        { id: "rent_3", tenantId: "ten_3", propertyId: "prop_2", month: currentMonth, dueDate: currentMonth + "-05", amount: 11000, status: "Overdue" },
-        { id: "rent_4", tenantId: "ten_4", propertyId: "prop_2", month: currentMonth, dueDate: currentMonth + "-05", amount: 11000, status: "Paid", paidDate: currentMonth + "-01", method: "Bank Transfer" }
+        { id: "rent_1", tenantId: "ten_1", propertyId: "prop_1", month: currentMonth, dueDate: currentMonth + "-05", amount: 12000, status: getRentStatusFromDueDate(currentMonth + "-05") },
+        { id: "rent_2", tenantId: "ten_2", propertyId: "prop_1", month: currentMonth, dueDate: currentMonth + "-05", amount: 11500, status: "Paid", paidDate: currentMonthPaidDateA, method: "UPI" },
+        { id: "rent_3", tenantId: "ten_3", propertyId: "prop_2", month: currentMonth, dueDate: currentMonth + "-25", amount: 11000, status: getRentStatusFromDueDate(currentMonth + "-25") },
+        { id: "rent_4", tenantId: "ten_4", propertyId: "prop_2", month: currentMonth, dueDate: currentMonth + "-05", amount: 11000, status: "Paid", paidDate: currentMonthPaidDateB, method: "Bank Transfer" }
       ],
       payments: [
-        { id: "pay_1", receiptId: "RCP-2026-001", tenantId: "ten_2", propertyId: "prop_1", amount: 11500, paymentDate: "2026-02-03", method: "UPI", status: "Completed", month: currentMonth },
-        { id: "pay_2", receiptId: "RCP-2026-002", tenantId: "ten_4", propertyId: "prop_2", amount: 11000, paymentDate: "2026-02-01", method: "Bank Transfer", status: "Completed", month: currentMonth },
-        { id: "pay_3", receiptId: "RCP-2026-003", tenantId: "ten_1", propertyId: "prop_1", amount: 12000, paymentDate: "2026-01-05", method: "Cash", status: "Completed", month: "2026-01" }
+        { id: "pay_1", receiptId: "RCP-" + currentDate.getFullYear() + "-001", tenantId: "ten_2", propertyId: "prop_1", amount: 11500, paymentDate: currentMonthPaidDateA, method: "UPI", status: "Completed", month: currentMonth },
+        { id: "pay_2", receiptId: "RCP-" + currentDate.getFullYear() + "-002", tenantId: "ten_4", propertyId: "prop_2", amount: 11000, paymentDate: currentMonthPaidDateB, method: "Bank Transfer", status: "Completed", month: currentMonth },
+        { id: "pay_3", receiptId: "RCP-" + currentDate.getFullYear() + "-003", tenantId: "ten_1", propertyId: "prop_1", amount: 12000, paymentDate: previousMonthPaidDate, method: "Cash", status: "Completed", month: previousMonth }
       ],
       complaints: [
         {
@@ -122,9 +143,9 @@ var RMSStore = (function () {
       alerts: [
         {
           id: "alert_1",
-          message: "Rent for February is due by the 5th. Please pay on time.",
+          message: "Monthly rent is due by the 5th. Please complete the payment on time.",
           tenantId: null,
-          date: "2026-02-01",
+          date: currentMonth + "-01",
           sender: "owner",
           readBy: []
         }
@@ -154,7 +175,10 @@ var RMSStore = (function () {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
         return defaults;
       }
-      return JSON.parse(stored);
+      var parsed = JSON.parse(stored);
+      var normalized = normalizeData(parsed);
+      saveData(normalized);
+      return normalized;
     } catch (e) {
       var fallback = getDefaultData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(fallback));
@@ -166,8 +190,8 @@ var RMSStore = (function () {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 
-  function recalcProperty(property) {
-    var tenants = getData().tenants.filter(function (t) {
+  function recalcProperty(data, property) {
+    var tenants = data.tenants.filter(function (t) {
       return t.propertyId === property.id && t.status === "Active";
     });
     property.occupiedRooms = tenants.length;
@@ -176,6 +200,81 @@ var RMSStore = (function () {
       return sum + Number(t.monthlyRent || 0);
     }, 0);
     return property;
+  }
+
+  function syncProperties(data) {
+    data.properties.forEach(function (property) {
+      recalcProperty(data, property);
+    });
+  }
+
+  function ensureCurrentRentRecord(data, tenant) {
+    var currentMonth = RMSUtils.getCurrentMonth();
+    var existing = data.rentRecords.find(function (record) {
+      return record.tenantId === tenant.id && record.month === currentMonth;
+    });
+
+    if (!existing) {
+      existing = {
+        id: RMSUtils.generateId("rent"),
+        tenantId: tenant.id,
+        propertyId: tenant.propertyId,
+        month: currentMonth,
+        dueDate: currentMonth + "-05",
+        amount: Number(tenant.monthlyRent || 0),
+        status: getRentStatusFromDueDate(currentMonth + "-05")
+      };
+      data.rentRecords.push(existing);
+      return existing;
+    }
+
+    existing.propertyId = tenant.propertyId;
+    existing.amount = Number(tenant.monthlyRent || 0);
+    existing.dueDate = existing.dueDate || currentMonth + "-05";
+    if (existing.status !== "Paid") {
+      existing.status = getRentStatusFromDueDate(existing.dueDate);
+      delete existing.paidDate;
+      delete existing.method;
+    }
+    return existing;
+  }
+
+  function syncCurrentRentRecords(data) {
+    data.tenants.filter(function (tenant) {
+      return tenant.status === "Active";
+    }).forEach(function (tenant) {
+      ensureCurrentRentRecord(data, tenant);
+    });
+  }
+
+  function normalizeData(data) {
+    var defaults = getDefaultData();
+    data = data || {};
+    data.properties = Array.isArray(data.properties) ? data.properties : defaults.properties;
+    data.tenants = Array.isArray(data.tenants) ? data.tenants : defaults.tenants;
+    data.rentRecords = Array.isArray(data.rentRecords) ? data.rentRecords : defaults.rentRecords;
+    data.payments = Array.isArray(data.payments) ? data.payments : defaults.payments;
+    data.complaints = Array.isArray(data.complaints) ? data.complaints : defaults.complaints;
+    data.alerts = Array.isArray(data.alerts) ? data.alerts : defaults.alerts;
+    data.settings = data.settings || {};
+    data.settings.owner = Object.assign({}, defaults.settings.owner, data.settings.owner || {});
+    data.settings.tenant = Object.assign({}, defaults.settings.tenant, data.settings.tenant || {});
+    syncTenantSettings(data);
+    syncProperties(data);
+    syncCurrentRentRecords(data);
+    return data;
+  }
+
+  function syncTenantSettings(data) {
+    var demoTenant = data.tenants.find(function (tenant) {
+      return tenant.loginUsername === "tenant";
+    });
+
+    if (!demoTenant) return;
+
+    data.settings.tenant.name = demoTenant.name || data.settings.tenant.name;
+    data.settings.tenant.email = demoTenant.email || data.settings.tenant.email;
+    data.settings.tenant.phone = demoTenant.phone || data.settings.tenant.phone;
   }
 
   /* Properties */
@@ -203,7 +302,7 @@ var RMSStore = (function () {
     var index = data.properties.findIndex(function (p) { return p.id === id; });
     if (index === -1) return null;
     Object.assign(data.properties[index], updates);
-    recalcProperty(data.properties[index]);
+    recalcProperty(data, data.properties[index]);
     saveData(data);
     return data.properties[index];
   }
@@ -235,8 +334,11 @@ var RMSStore = (function () {
     tenant.id = RMSUtils.generateId("ten");
     tenant.status = tenant.status || "Active";
     data.tenants.push(tenant);
-    var prop = data.properties.find(function (p) { return p.id === tenant.propertyId; });
-    if (prop) recalcProperty(prop);
+    syncProperties(data);
+    if (tenant.status === "Active") {
+      ensureCurrentRentRecord(data, tenant);
+    }
+    syncTenantSettings(data);
     saveData(data);
     return tenant;
   }
@@ -245,9 +347,16 @@ var RMSStore = (function () {
     var data = getData();
     var index = data.tenants.findIndex(function (t) { return t.id === id; });
     if (index === -1) return null;
+    var previousPropertyId = data.tenants[index].propertyId;
     Object.assign(data.tenants[index], updates);
-    var prop = data.properties.find(function (p) { return p.id === data.tenants[index].propertyId; });
-    if (prop) recalcProperty(prop);
+    syncProperties(data);
+    if (data.tenants[index].status === "Active") {
+      ensureCurrentRentRecord(data, data.tenants[index]);
+    }
+    if (previousPropertyId !== data.tenants[index].propertyId) {
+      syncProperties(data);
+    }
+    syncTenantSettings(data);
     saveData(data);
     return data.tenants[index];
   }
@@ -258,17 +367,35 @@ var RMSStore = (function () {
 
   /* Rent Records */
   function getRentRecords() {
-    return getData().rentRecords;
+    return getData().rentRecords.slice().sort(function (a, b) {
+      return new Date(b.dueDate) - new Date(a.dueDate);
+    });
   }
 
   function getRentRecordById(id) {
-    return getRentRecords().find(function (r) { return r.id === id; });
+    return getData().rentRecords.find(function (r) { return r.id === id; });
+  }
+
+  function getRentRecordsByTenant(tenantId) {
+    return getRentRecords().filter(function (record) {
+      return record.tenantId === tenantId;
+    });
+  }
+
+  function getCurrentRentRecordForTenant(tenantId) {
+    var currentMonth = RMSUtils.getCurrentMonth();
+    return getData().rentRecords.find(function (record) {
+      return record.tenantId === tenantId && record.month === currentMonth;
+    });
   }
 
   function recordRentPayment(rentId, method) {
     var data = getData();
     var rent = data.rentRecords.find(function (r) { return r.id === rentId; });
     if (!rent) return null;
+    if (rent.status === "Paid") {
+      return { error: "Rent already paid for this month." };
+    }
     rent.status = "Paid";
     rent.paidDate = new Date().toISOString().split("T")[0];
     rent.method = method || "Cash";
@@ -291,30 +418,35 @@ var RMSStore = (function () {
 
   function tenantPayRent(tenantId, method) {
     var data = getData();
-    var currentMonth = RMSUtils.getCurrentMonth();
-    var rent = data.rentRecords.find(function (r) {
-      return r.tenantId === tenantId && r.month === currentMonth;
+    var tenant = data.tenants.find(function (item) {
+      return item.id === tenantId;
     });
-    if (!rent) {
-      var tenant = getTenantById(tenantId);
-      rent = {
-        id: RMSUtils.generateId("rent"),
-        tenantId: tenantId,
-        propertyId: tenant.propertyId,
-        month: currentMonth,
-        dueDate: currentMonth + "-05",
-        amount: tenant.monthlyRent,
-        status: "Pending"
-      };
-      data.rentRecords.push(rent);
-    }
+    if (!tenant) return { error: "Tenant not found." };
+    var rent = ensureCurrentRentRecord(data, tenant);
     if (rent.status === "Paid") return { error: "Rent already paid for this month." };
-    return recordRentPayment(rent.id, method);
+    rent.status = "Paid";
+    rent.paidDate = new Date().toISOString().split("T")[0];
+    rent.method = method || "UPI";
+    data.payments.unshift({
+      id: RMSUtils.generateId("pay"),
+      receiptId: "RCP-" + new Date().getFullYear() + "-" + String(data.payments.length + 1).padStart(3, "0"),
+      tenantId: rent.tenantId,
+      propertyId: rent.propertyId,
+      amount: rent.amount,
+      paymentDate: rent.paidDate,
+      method: rent.method,
+      status: "Completed",
+      month: rent.month
+    });
+    saveData(data);
+    return rent;
   }
 
   /* Payments */
   function getPayments() {
-    return getData().payments;
+    return getData().payments.slice().sort(function (a, b) {
+      return new Date(b.paymentDate) - new Date(a.paymentDate);
+    });
   }
 
   function getPaymentById(id) {
@@ -327,7 +459,9 @@ var RMSStore = (function () {
 
   /* Complaints */
   function getComplaints() {
-    return getData().complaints;
+    return getData().complaints.slice().sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
   }
 
   function getComplaintById(id) {
@@ -360,7 +494,9 @@ var RMSStore = (function () {
 
   /* Alerts */
   function getAlerts() {
-    return getData().alerts;
+    return getData().alerts.slice().sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
   }
 
   function getAlertsForTenant(tenantId) {
@@ -454,6 +590,8 @@ var RMSStore = (function () {
     deactivateTenant: deactivateTenant,
     getRentRecords: getRentRecords,
     getRentRecordById: getRentRecordById,
+    getRentRecordsByTenant: getRentRecordsByTenant,
+    getCurrentRentRecordForTenant: getCurrentRentRecordForTenant,
     recordRentPayment: recordRentPayment,
     tenantPayRent: tenantPayRent,
     getPayments: getPayments,
