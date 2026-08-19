@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div><h2>Properties</h2><p>Manage your rental properties</p></div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-primary" id="add-property-btn">+ Add Property</button>
+          </div>
+        </div>
+        <div class="property-grid" id="property-grid"></div>
+      </main>
+    </div>
+  </div>
+  <div id="modal-root"></div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/modal.js"></script>
+  <script src="../../js/owner-properties.js"></script>
+</body>
+</html>

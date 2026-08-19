@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerts — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div><h2>Alerts & Notifications</h2><p>Send alerts to tenants</p></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h3>Send New Alert</h3></div>
+            <div class="card-body">
+              <form id="send-alert-form">
+                <div class="form-group">
+                  <label>Recipient</label>
+                  <label><input type="radio" name="recipient" value="all" checked> All Tenants</label>
+                  <label style="margin-left:1rem"><input type="radio" name="recipient" value="specific"> Specific Tenant</label>
+                </div>
+                <div class="form-group">
+                  <label for="alert-tenant">Select Tenant</label>
+                  <select id="alert-tenant"><option value="">—</option></select>
+                </div>
+                <div class="form-group">
+                  <label for="alert-message">Message *</label>
+                  <textarea id="alert-message" placeholder="Write your alert message..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Alert</button>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Sent Alerts</h3></div>
+            <div class="card-body no-padding" id="sent-alerts"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/owner-alerts.js"></script>
+</body>
+</html>

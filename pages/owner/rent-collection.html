@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Collection — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div><h2>Rent Collection</h2><p>Track and record tenant rent payments</p></div>
+        </div>
+        <div class="filter-bar">
+          <div class="form-group">
+            <label for="filter-status">Status</label>
+            <select id="filter-status">
+              <option value="">All</option>
+              <option value="Paid">Paid</option>
+              <option value="Pending">Pending</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="search-rent">Search</label>
+            <input type="text" id="search-rent" placeholder="Search tenant or property">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tenant</th><th>Property</th><th>Room</th><th>Amount</th>
+                    <th>Due Date</th><th>Month</th><th>Status</th><th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="rent-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="modal-root"></div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/modal.js"></script>
+  <script src="../../js/owner-rent-collection.js"></script>
+</body>
+</html>

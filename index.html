@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rent Management System — Manage properties, tenants, rent collection, and complaints efficiently.">
+  <title>Rent Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar" aria-label="Main navigation">
+      <div class="container">
+        <a href="index.html" class="navbar-brand">
+          <span class="navbar-brand-icon">RMS</span>
+          Rent Management System
+        </a>
+
+        <div class="navbar-menu">
+          <ul class="navbar-nav">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+
+          <div class="navbar-actions">
+            <a href="pages/owner-login.html" class="btn btn-outline btn-sm">Owner Login</a>
+            <a href="pages/tenant-login.html" class="btn btn-primary btn-sm">Tenant Login</a>
+          </div>
+        </div>
+
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Rent Management System</h1>
+          <p>
+            A simple and efficient platform for property owners and tenants to manage
+            rentals, track payments, handle complaints, and stay informed — all in one place.
+          </p>
+          <div class="hero-buttons">
+            <a href="pages/owner-login.html" class="btn btn-primary">Owner Login</a>
+            <a href="pages/tenant-login.html" class="btn btn-secondary">Tenant Login</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/hero-illustration.svg" alt="Property and rental management illustration">
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Features</span>
+          <h2 class="section-title">Everything You Need to Manage Rentals</h2>
+          <p class="section-subtitle">
+            RMS provides essential tools for owners and tenants to manage properties,
+            payments, and communication effectively.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#127968;</div>
+            <h3>Property Management</h3>
+            <p>Add, update, and organize property details including addresses, units, and rental terms in one centralized place.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#128101;</div>
+            <h3>Tenant Management</h3>
+            <p>Keep track of tenant information, lease agreements, and occupancy status for each of your properties.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#128176;</div>
+            <h3>Rent Management</h3>
+            <p>Monitor rent due dates, record payments, and manage monthly rent collection with clear status tracking.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#128203;</div>
+            <h3>Payment History</h3>
+            <p>View complete payment records and transaction history for transparent financial tracking over time.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#128172;</div>
+            <h3>Complaints</h3>
+            <p>Submit and track maintenance requests and complaints, ensuring issues are addressed promptly.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">&#128276;</div>
+            <h3>Alerts</h3>
+            <p>Receive important notifications about rent due dates, payment confirmations, and complaint updates.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">How It Works</span>
+          <h2 class="section-title">Simple Steps to Get Started</h2>
+          <p class="section-subtitle">
+            RMS follows a straightforward workflow designed for property owners and tenants alike.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <div class="step-number">1</div>
+            <h3>Add Properties</h3>
+            <p>Property owners register their rental properties with details such as address, rent amount, and available units.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">2</div>
+            <h3>Manage Tenants</h3>
+            <p>Assign tenants to properties, maintain lease records, and keep contact information up to date.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">3</div>
+            <h3>Manage Rent</h3>
+            <p>Track rent payments, review payment history, handle complaints, and stay notified with timely alerts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">About</span>
+          <h2 class="section-title">About Rent Management System</h2>
+        </div>
+
+        <div class="about-content">
+          <p>
+            Rent Management System (RMS) is an academic project developed as part of our
+            Software Engineering course. It is designed to help property owners and tenants
+            manage rental operations in a structured and efficient way.
+          </p>
+          <p>
+            Owners can manage their properties, tenants, rent collection, and complaints,
+            while tenants can view their rent details, make payments, and submit complaints.
+            RMS aims to simplify everyday rental management tasks through a clean and
+            user-friendly interface.
+          </p>
+
+          <div class="about-highlights">
+            <span class="about-highlight"><span class="about-highlight-dot"></span> Academic Project</span>
+            <span class="about-highlight"><span class="about-highlight-dot"></span> Owner &amp; Tenant Portals</span>
+            <span class="about-highlight"><span class="about-highlight-dot"></span> Local Development</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portal / Login Section -->
+    <section id="contact" class="section portal-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Get Started</span>
+          <h2 class="section-title">Choose Your Portal</h2>
+          <p class="section-subtitle">
+            Log in as an owner or tenant to access your respective dashboard and manage your rental activities.
+          </p>
+        </div>
+
+        <div class="portal-cards">
+          <article class="portal-card">
+            <h3>Owner Portal</h3>
+            <p>Manage properties, tenants, rent collection, payment records, complaints, and alerts.</p>
+            <a href="pages/owner-login.html" class="btn btn-primary">Owner Login</a>
+          </article>
+
+          <article class="portal-card">
+            <h3>Tenant Portal</h3>
+            <p>View rent details, track payments, submit complaints, and receive important notifications.</p>
+            <a href="pages/tenant-login.html" class="btn btn-secondary">Tenant Login</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Rent Management System</div>
+          <p class="footer-desc">
+            A simple property and rent management platform for owners and tenants.
+            Built as an academic Software Engineering project.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Portals</h4>
+          <ul class="footer-links">
+            <li><a href="pages/owner-login.html">Owner Login</a></li>
+            <li><a href="pages/tenant-login.html">Tenant Login</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:contact@rms-project.local">contact@rms-project.local</a></li>
+            <li>Software Engineering Course</li>
+            <li>Academic Project 2026</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Rent Management System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Dashboard — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="stats-grid" id="stats-grid"></div>
+
+        <div class="card">
+          <div class="card-header"><h3>Property Overview</h3></div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Property</th>
+                    <th>Location</th>
+                    <th>Total Rooms</th>
+                    <th>Occupied</th>
+                    <th>Vacant</th>
+                    <th>Monthly Income</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="property-overview"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h3>Recent Payments</h3></div>
+            <div class="card-body no-padding">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Tenant</th><th>Amount</th><th>Date</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="recent-payments"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>Recent Complaints</h3></div>
+            <div class="card-body no-padding">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Tenant</th><th>Subject</th><th>Date</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="recent-complaints"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="modal-root"></div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/modal.js"></script>
+  <script src="../../js/owner-dashboard.js"></script>
+</body>
+</html>

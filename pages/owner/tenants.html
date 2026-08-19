@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tenants — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div><h2>Tenants</h2><p>Manage tenant information and assignments</p></div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-primary" id="add-tenant-btn">+ Add Tenant</button>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <div class="form-group">
+            <label for="search-tenant">Search</label>
+            <input type="text" id="search-tenant" placeholder="Search by name or email">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th><th>Phone</th><th>Email</th><th>Property</th>
+                    <th>Room</th><th>Rent</th><th>Joined</th><th>Status</th><th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tenants-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="modal-root"></div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/modal.js"></script>
+  <script src="../../js/owner-tenants.js"></script>
+</body>
+</html>

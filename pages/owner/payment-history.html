@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment History — Rent Management System</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+      <main class="page-content">
+        <div class="page-header">
+          <div><h2>Payment History</h2><p>View all payment records and receipts</p></div>
+        </div>
+        <div class="filter-bar">
+          <div class="form-group">
+            <label for="filter-tenant">Tenant</label>
+            <select id="filter-tenant"><option value="">All Tenants</option></select>
+          </div>
+          <div class="form-group">
+            <label for="filter-property">Property</label>
+            <select id="filter-property"><option value="">All Properties</option></select>
+          </div>
+          <div class="form-group">
+            <label for="filter-month">Month</label>
+            <input type="month" id="filter-month">
+          </div>
+          <div class="form-group">
+            <label for="search-payment">Search</label>
+            <input type="text" id="search-payment" placeholder="Receipt ID or tenant">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Receipt ID</th><th>Tenant</th><th>Property</th><th>Amount</th>
+                    <th>Date</th><th>Method</th><th>Status</th><th>Receipt</th>
+                  </tr>
+                </thead>
+                <tbody id="payments-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/data-store.js"></script>
+  <script src="../../js/session.js"></script>
+  <script src="../../js/layout.js"></script>
+  <script src="../../js/owner-payment-history.js"></script>
+</body>
+</html>
