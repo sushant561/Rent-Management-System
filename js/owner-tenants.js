@@ -37,10 +37,10 @@
         "<td>" + RMSUtils.formatDate(t.joiningDate) + "</td>" +
         "<td>" + RMSUtils.getStatusBadge(t.status) + "</td>" +
         '<td class="actions">' +
-          '<button type="button" class="btn btn-sm btn-outline view-btn" data-id="' + t.id + '">View</button> ' +
-          '<button type="button" class="btn btn-sm btn-primary edit-btn" data-id="' + t.id + '">Edit</button> ' +
+          '<button type="button" class="action-btn view-btn" data-id="' + t.id + '">View</button>' +
+          '<button type="button" class="action-btn action-btn-edit edit-btn" data-id="' + t.id + '">Edit</button>' +
           (t.status === "Active"
-            ? '<button type="button" class="btn btn-sm btn-danger deactivate-btn" data-id="' + t.id + '">Deactivate</button>'
+            ? '<button type="button" class="action-btn action-btn-danger deactivate-btn" data-id="' + t.id + '">Deactivate</button>'
             : "") +
         "</td>" +
       "</tr>";

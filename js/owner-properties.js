@@ -32,9 +32,9 @@
         "</div>" +
         "<p><strong>Monthly Income:</strong> " + RMSUtils.formatCurrency(p.monthlyIncome) + "</p>" +
         '<div class="property-card-actions">' +
-          '<button type="button" class="btn btn-sm btn-outline view-btn" data-id="' + p.id + '">View</button>' +
-          '<button type="button" class="btn btn-sm btn-primary edit-btn" data-id="' + p.id + '">Edit</button>' +
-          '<button type="button" class="btn btn-sm btn-danger delete-btn" data-id="' + p.id + '">Delete</button>' +
+          '<button type="button" class="action-btn view-btn" data-id="' + p.id + '">View</button>' +
+          '<button type="button" class="action-btn action-btn-edit edit-btn" data-id="' + p.id + '">Edit</button>' +
+          '<button type="button" class="action-btn action-btn-danger delete-btn" data-id="' + p.id + '">Delete</button>' +
         "</div>" +
       "</article>";
     }).join("");
