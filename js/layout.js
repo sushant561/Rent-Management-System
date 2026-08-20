@@ -70,6 +70,60 @@ var RMSLayout = (function () {
     });
   }
 
+  function ensureSidebarOverlay() {
+    var layout = document.querySelector(".app-layout");
+    if (!layout || document.getElementById("sidebar-overlay")) return;
+
+    var overlay = document.createElement("div");
+    overlay.id = "sidebar-overlay";
+    overlay.className = "sidebar-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    layout.appendChild(overlay);
+  }
+
+  function initSidebarToggle() {
+    var toggle = document.getElementById("sidebar-toggle");
+    var sidebar = document.getElementById("sidebar");
+    var overlay = document.getElementById("sidebar-overlay");
+
+    if (!toggle || !sidebar) return;
+
+    function setSidebarOpen(open) {
+      sidebar.classList.toggle("open", open);
+      toggle.classList.toggle("active", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.classList.toggle("sidebar-open", open);
+
+      if (overlay) {
+        overlay.classList.toggle("open", open);
+        overlay.setAttribute("aria-hidden", open ? "false" : "true");
+      }
+    }
+
+    function closeSidebar() {
+      setSidebarOpen(false);
+    }
+
+    toggle.addEventListener("click", function () {
+      setSidebarOpen(!sidebar.classList.contains("open"));
+    });
+
+    if (overlay) {
+      overlay.addEventListener("click", closeSidebar);
+    }
+
+    sidebar.querySelectorAll(".sidebar-link").forEach(function (link) {
+      link.addEventListener("click", closeSidebar);
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768) {
+        closeSidebar();
+      }
+    });
+  }
+
   function renderTopbar(role, activePage, session) {
     var topbar = document.getElementById("topbar");
     if (!topbar) return;
@@ -98,7 +152,9 @@ var RMSLayout = (function () {
 
     topbar.innerHTML =
       '<div class="topbar-left">' +
-        '<button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle menu">☰</button>' +
+        '<button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Open menu" aria-expanded="false">' +
+          "<span></span><span></span><span></span>" +
+        "</button>" +
         "<h1 class=\"topbar-title\">" + RMSUtils.escapeHtml(title) + "</h1>" +
       "</div>" +
       '<div class="topbar-right">' +
@@ -107,18 +163,16 @@ var RMSLayout = (function () {
         "</a>" +
         '<span class="topbar-user">' + RMSUtils.escapeHtml(userName) + "</span>" +
       "</div>";
-
-    document.getElementById("sidebar-toggle").addEventListener("click", function () {
-      document.getElementById("sidebar").classList.toggle("open");
-    });
   }
 
   function init(role, activePage) {
     var session = RMSSession.requireAuth(role);
     if (!session) return null;
 
+    ensureSidebarOverlay();
     renderSidebar(role, activePage);
     renderTopbar(role, activePage, session);
+    initSidebarToggle();
     return session;
   }
 

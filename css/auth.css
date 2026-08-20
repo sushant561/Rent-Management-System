@@ -15,6 +15,18 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl) var(--spacing-lg);
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .auth-main {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .auth-card {
+    padding: var(--spacing-xl);
+  }
 }
 
 .auth-card {
