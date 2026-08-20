@@ -12,11 +12,16 @@
       saveSettings();
     });
     document.getElementById("reset-data-btn").addEventListener("click", function () {
-      if (confirm("Reset all mock data to defaults? This cannot be undone.")) {
-        RMSStore.resetData();
-        RMSUtils.showToast("Data reset to defaults.", "success");
-        loadSettings();
-      }
+      RMSModal.confirm({
+        title: "Reset Demo Data",
+        message: "Are you sure you want to reset all mock data to defaults? This will restore sample properties, tenants, payments and other records. This action cannot be undone.",
+        confirmText: "Reset Data",
+        onConfirm: function () {
+          RMSStore.resetData();
+          RMSUtils.showToast("Data reset to defaults.", "success");
+          loadSettings();
+        }
+      });
     });
   });
 

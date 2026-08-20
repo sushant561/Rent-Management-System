@@ -144,12 +144,22 @@
   }
 
   function deleteProperty(id) {
-    var result = RMSStore.deleteProperty(id);
-    if (result.error) {
-      RMSUtils.showToast(result.error, "error");
-      return;
-    }
-    RMSUtils.showToast("Property deleted.", "success");
-    renderProperties();
+    var property = RMSStore.getPropertyById(id);
+    if (!property) return;
+
+    RMSModal.confirm({
+      title: "Delete Property",
+      message: "Are you sure you want to delete \"" + property.name + "\"? This action cannot be undone.",
+      confirmText: "Delete Property",
+      onConfirm: function () {
+        var result = RMSStore.deleteProperty(id);
+        if (result.error) {
+          RMSUtils.showToast(result.error, "error");
+          return;
+        }
+        RMSUtils.showToast("Property deleted.", "success");
+        renderProperties();
+      }
+    });
   }
 })();

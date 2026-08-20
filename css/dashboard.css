@@ -683,6 +683,13 @@ body.sidebar-open {
   min-width: 0;
 }
 
+.confirm-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
 /* Toast */
 
 .toast-container {

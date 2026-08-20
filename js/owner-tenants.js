@@ -58,11 +58,19 @@
     });
     container.querySelectorAll(".deactivate-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        if (confirm("Deactivate this tenant?")) {
-          RMSStore.deactivateTenant(btn.dataset.id);
-          RMSUtils.showToast("Tenant deactivated.", "success");
-          renderTenants();
-        }
+        var tenant = RMSStore.getTenantById(btn.dataset.id);
+        if (!tenant) return;
+
+        RMSModal.confirm({
+          title: "Deactivate Tenant",
+          message: "Are you sure you want to deactivate \"" + tenant.name + "\"? They will no longer be listed as an active tenant.",
+          confirmText: "Deactivate Tenant",
+          onConfirm: function () {
+            RMSStore.deactivateTenant(btn.dataset.id);
+            RMSUtils.showToast("Tenant deactivated.", "success");
+            renderTenants();
+          }
+        });
       });
     });
   }
