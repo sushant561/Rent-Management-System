@@ -5,24 +5,24 @@ var RMSLayout = (function () {
   "use strict";
 
   var OWNER_NAV = [
-    { page: "dashboard", label: "Dashboard", icon: "📊", href: "dashboard.html" },
-    { page: "properties", label: "Properties", icon: "🏠", href: "properties.html" },
-    { page: "tenants", label: "Tenants", icon: "👥", href: "tenants.html" },
-    { page: "rent-collection", label: "Rent Collection", icon: "💰", href: "rent-collection.html" },
-    { page: "payment-history", label: "Payment History", icon: "📋", href: "payment-history.html" },
-    { page: "reports", label: "Reports", icon: "📈", href: "reports.html" },
-    { page: "complaints", label: "Complaints", icon: "💬", href: "complaints.html" },
-    { page: "alerts", label: "Alerts", icon: "🔔", href: "alerts.html" },
-    { page: "settings", label: "Settings", icon: "⚙️", href: "settings.html" }
+    { page: "dashboard", label: "Dashboard", icon: "dashboard", href: "dashboard.html" },
+    { page: "properties", label: "Properties", icon: "properties", href: "properties.html" },
+    { page: "tenants", label: "Tenants", icon: "tenants", href: "tenants.html" },
+    { page: "rent-collection", label: "Rent Collection", icon: "rent-collection", href: "rent-collection.html" },
+    { page: "payment-history", label: "Payment History", icon: "payment-history", href: "payment-history.html" },
+    { page: "reports", label: "Reports", icon: "reports", href: "reports.html" },
+    { page: "complaints", label: "Complaints", icon: "complaints", href: "complaints.html" },
+    { page: "alerts", label: "Alerts", icon: "alerts", href: "alerts.html" },
+    { page: "settings", label: "Settings", icon: "settings", href: "settings.html" }
   ];
 
   var TENANT_NAV = [
-    { page: "dashboard", label: "Dashboard", icon: "📊", href: "dashboard.html" },
-    { page: "rent-payment", label: "Rent Payment", icon: "💳", href: "rent-payment.html" },
-    { page: "payment-history", label: "Payment History", icon: "📋", href: "payment-history.html" },
-    { page: "complaints", label: "Complaints", icon: "💬", href: "complaints.html" },
-    { page: "alerts", label: "Alerts", icon: "🔔", href: "alerts.html" },
-    { page: "profile", label: "Profile", icon: "👤", href: "profile.html" }
+    { page: "dashboard", label: "Dashboard", icon: "dashboard", href: "dashboard.html" },
+    { page: "rent-payment", label: "Rent Payment", icon: "rent-payment", href: "rent-payment.html" },
+    { page: "payment-history", label: "Payment History", icon: "payment-history", href: "payment-history.html" },
+    { page: "complaints", label: "Complaints", icon: "complaints", href: "complaints.html" },
+    { page: "alerts", label: "Alerts", icon: "alerts", href: "alerts.html" },
+    { page: "profile", label: "Profile", icon: "profile", href: "profile.html" }
   ];
 
   var PAGE_TITLES = {
@@ -49,7 +49,7 @@ var RMSLayout = (function () {
     var navHtml = navItems.map(function (item) {
       var active = item.page === activePage ? " active" : "";
       return '<a href="' + item.href + '" class="sidebar-link' + active + '">' +
-        '<span class="sidebar-link-icon">' + item.icon + '</span>' +
+        '<span class="sidebar-link-icon">' + RMSIcons.get(item.icon) + '</span>' +
         RMSUtils.escapeHtml(item.label) + "</a>";
     }).join("");
 
@@ -61,7 +61,7 @@ var RMSLayout = (function () {
       '<nav class="sidebar-nav" aria-label="' + roleLabel + ' navigation">' + navHtml + "</nav>" +
       '<div class="sidebar-footer">' +
         '<button type="button" class="sidebar-logout" id="logout-btn">' +
-          '<span>🚪</span> Logout' +
+          RMSIcons.get("logout") + " Logout" +
         "</button>" +
       "</div>";
 
@@ -159,7 +159,7 @@ var RMSLayout = (function () {
       "</div>" +
       '<div class="topbar-right">' +
         '<a href="' + alertLink + '" class="notification-badge" aria-label="Notifications">' +
-          "🔔" + badgeHtml +
+          RMSIcons.get("alerts") + badgeHtml +
         "</a>" +
         '<span class="topbar-user">' + RMSUtils.escapeHtml(userName) + "</span>" +
       "</div>";
