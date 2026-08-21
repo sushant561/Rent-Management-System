@@ -303,6 +303,11 @@ p {
   gap: var(--spacing-sm);
 }
 
+.navbar-actions .btn {
+  margin: 0.25rem 0;
+  white-space: nowrap;
+}
+
 .navbar-nav a {
   color: var(--color-text-muted);
   font-weight: 500;
@@ -438,10 +443,7 @@ p {
   }
 }
 
-@media (max-width: 768px) {
-  h1 { font-size: var(--font-size-3xl); }
-  h2 { font-size: var(--font-size-2xl); }
-
+@media (max-width: 1100px) {
   .nav-toggle {
     display: flex;
   }
@@ -475,6 +477,11 @@ p {
   .navbar-actions .btn {
     width: 100%;
   }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
 
   .footer-grid {
     grid-template-columns: 1fr;

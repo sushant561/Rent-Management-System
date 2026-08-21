@@ -24,6 +24,14 @@
     }
   };
 
+  function getRegisteredOwners() {
+    try {
+      return JSON.parse(localStorage.getItem("rms_registered_owners")) || [];
+    } catch (error) {
+      return [];
+    }
+  }
+
   /**
    * Initialize login form for the given role (owner or tenant)
    * @param {string} role - "owner" or "tenant"
@@ -40,11 +48,14 @@
       var username = document.getElementById("username").value.trim();
       var password = document.getElementById("password").value;
       var creds = CREDENTIALS[role];
+      var registeredOwner = role === "owner" && getRegisteredOwners().find(function (owner) {
+        return owner.username === username.toLowerCase() && owner.password === password;
+      });
 
-      if (username === creds.username && password === creds.password) {
+      if ((username === creds.username && password === creds.password) || registeredOwner) {
         /* Successful login — save temporary session and redirect */
         if (typeof RMSSession !== "undefined") {
-          RMSSession.setSession(role, username);
+          RMSSession.setSession(role, registeredOwner ? registeredOwner.fullname : username);
         } else {
           localStorage.setItem("rms_session", JSON.stringify({ role: role, username: username }));
         }

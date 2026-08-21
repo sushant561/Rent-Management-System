@@ -126,6 +126,21 @@
   display: block;
 }
 
+.auth-success {
+  display: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: var(--radius-sm);
+  color: #166534;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.auth-success.visible {
+  display: block;
+}
+
 .auth-form .btn {
   width: 100%;
   margin-top: var(--spacing-xs);
