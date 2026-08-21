@@ -278,17 +278,10 @@ p {
   color: var(--color-primary);
 }
 
-.navbar-brand-icon {
+.navbar-brand-logo {
   width: 36px;
   height: 36px;
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+  object-fit: contain;
 }
 
 .navbar-menu {

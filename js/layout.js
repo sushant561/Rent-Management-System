@@ -55,7 +55,7 @@ var RMSLayout = (function () {
 
     sidebar.innerHTML =
       '<a href="../../index.html" class="sidebar-brand">' +
-        '<span class="sidebar-brand-icon">RMS</span> Rent Management' +
+        '<img src="../../assets/rmslogo.png" class="sidebar-brand-logo" alt="Rent Management System logo"> Rent Management' +
       "</a>" +
       '<div class="sidebar-role">' + roleLabel + "</div>" +
       '<nav class="sidebar-nav" aria-label="' + roleLabel + ' navigation">' + navHtml + "</nav>" +
