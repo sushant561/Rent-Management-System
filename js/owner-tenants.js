@@ -119,7 +119,8 @@
         '<form id="tenant-form"><div class="form-grid">' +
           field("ten-name", "Full Name", t ? t.name : "") +
           field("ten-phone", "Phone", t ? t.phone : "") +
-          field("ten-email", "Email", t ? t.email : "") +
+          field("ten-email", "Username (Email)", t ? t.email : "", "email") +
+          field("ten-password", "Password", "", "password", !isEdit) +
           '<div class="form-group"><label for="ten-property">Property *</label><select id="ten-property" required>' +
             '<option value="">Select property</option>' + propertyOptions(t ? t.propertyId : "") +
           "</select></div>" +
@@ -136,7 +137,9 @@
           var data = {
             name: document.getElementById("ten-name").value.trim(),
             phone: document.getElementById("ten-phone").value.trim(),
-            email: document.getElementById("ten-email").value.trim(),
+            email: document.getElementById("ten-email").value.trim().toLowerCase(),
+            loginUsername: document.getElementById("ten-email").value.trim().toLowerCase(),
+            password: document.getElementById("ten-password").value,
             propertyId: document.getElementById("ten-property").value,
             roomNumber: document.getElementById("ten-room").value.trim(),
             monthlyRent: parseInt(document.getElementById("ten-rent").value, 10),
@@ -146,8 +149,13 @@
           var err = RMSUtils.validateRequired(data.name, "Name") ||
             RMSUtils.validatePhone(data.phone) ||
             RMSUtils.validateEmail(data.email) ||
+            ((!isEdit || data.password) && data.password.length < 6 ? "Password must be at least 6 characters." : "") ||
             RMSUtils.validateRequired(data.propertyId, "Property") ||
             RMSUtils.validateRequired(data.roomNumber, "Room number");
+
+          if (isEdit && !data.password) {
+            delete data.password;
+          }
 
           if (err || !data.monthlyRent || !data.joiningDate) {
             RMSUtils.showToast(err || "Please fill all fields.", "error");
@@ -171,6 +179,15 @@
 
           if (roomTaken) {
             RMSUtils.showToast("That room is already assigned to another active tenant.", "error");
+            return;
+          }
+
+          var usernameTaken = RMSStore.getTenants().some(function (tenantItem) {
+            return tenantItem.loginUsername === data.loginUsername && tenantItem.id !== id;
+          });
+
+          if (usernameTaken) {
+            RMSUtils.showToast("That username is already assigned to another tenant.", "error");
             return;
           }
 
@@ -198,9 +215,10 @@
     });
   }
 
-  function field(id, label, value, type) {
+  function field(id, label, value, type, required) {
     type = type || "text";
-    return '<div class="form-group"><label for="' + id + '">' + label + ' *</label>' +
-      '<input type="' + type + '" id="' + id + '" value="' + RMSUtils.escapeHtml(String(value || "")) + '" required></div>';
+    required = required === undefined ? true : required;
+    return '<div class="form-group"><label for="' + id + '">' + label + (required ? " *" : "") + '</label>' +
+      '<input type="' + type + '" id="' + id + '" value="' + RMSUtils.escapeHtml(String(value || "")) + '"' + (required ? " required" : "") + '></div>';
   }
 })();

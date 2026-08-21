@@ -66,6 +66,7 @@ var RMSStore = (function () {
         {
           id: "ten_1",
           loginUsername: "tenant",
+          password: "tenant123",
           name: "Rahul Sharma",
           phone: "9876543210",
           email: "rahul.sharma@email.com",
@@ -252,6 +253,11 @@ var RMSStore = (function () {
     data = data || {};
     data.properties = Array.isArray(data.properties) ? data.properties : defaults.properties;
     data.tenants = Array.isArray(data.tenants) ? data.tenants : defaults.tenants;
+    data.tenants.forEach(function (tenant) {
+      if (tenant.loginUsername === "tenant" && !tenant.password) {
+        tenant.password = "tenant123";
+      }
+    });
     data.rentRecords = Array.isArray(data.rentRecords) ? data.rentRecords : defaults.rentRecords;
     data.payments = Array.isArray(data.payments) ? data.payments : defaults.payments;
     data.complaints = Array.isArray(data.complaints) ? data.complaints : defaults.complaints;

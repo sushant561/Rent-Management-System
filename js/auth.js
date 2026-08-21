@@ -32,6 +32,15 @@
     }
   }
 
+  function getRegisteredTenant(username, password) {
+    if (typeof RMSStore === "undefined") return null;
+    return RMSStore.getTenants().find(function (tenant) {
+      return tenant.status === "Active" &&
+        tenant.loginUsername === username.toLowerCase() &&
+        tenant.password === password;
+    });
+  }
+
   /**
    * Initialize login form for the given role (owner or tenant)
    * @param {string} role - "owner" or "tenant"
@@ -51,11 +60,12 @@
       var registeredOwner = role === "owner" && getRegisteredOwners().find(function (owner) {
         return owner.username === username.toLowerCase() && owner.password === password;
       });
+      var registeredTenant = role === "tenant" && getRegisteredTenant(username, password);
 
-      if ((username === creds.username && password === creds.password) || registeredOwner) {
+      if ((username === creds.username && password === creds.password) || registeredOwner || registeredTenant) {
         /* Successful login — save temporary session and redirect */
         if (typeof RMSSession !== "undefined") {
-          RMSSession.setSession(role, registeredOwner ? registeredOwner.fullname : username);
+          RMSSession.setSession(role, registeredOwner ? registeredOwner.fullname : username.toLowerCase());
         } else {
           localStorage.setItem("rms_session", JSON.stringify({ role: role, username: username }));
         }
